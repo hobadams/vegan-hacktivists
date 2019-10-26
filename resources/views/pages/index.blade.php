@@ -12,6 +12,6 @@
     </div>
     
     @include('question.ask')
-    @include('question.list')
+    @include('question.questions')
     
 @stop

@@ -4,5 +4,9 @@
  */
 
  // Homepage
- Route::get('/','QuestionsController@index');
- Route::post('/question/ask','QuestionsController@submit');
+ Route::get('/','QuestionController@index');
+
+ // Questions
+ Route::post('/question/submit/question','QuestionController@submitQuestion');
+ Route::post('/question/submit/answer','QuestionController@submitAnswer');
+ Route::get('question/{id}', 'QuestionController@view');
