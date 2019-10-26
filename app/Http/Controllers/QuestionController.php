@@ -23,7 +23,7 @@ class QuestionController extends Controller
     public function submitQuestion()
     {
         $question = new Question();
-        if (!request('questionn')) {
+        if (!request('question')) {
             session()->flash('error', 'Please ask a question');
             return redirect()->back();
         }
