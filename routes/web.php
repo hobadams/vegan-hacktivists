@@ -4,7 +4,5 @@
  */
 
  // Homepage
-Route::get('/', function () {
-    $questions = DB::table('questions')->get();
-    return view('pages.index', ['questions' => $questions]);
-});
+ Route::get('/','QuestionsController@index');
+ Route::post('/question/ask','QuestionsController@submit');
