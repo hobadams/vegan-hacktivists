@@ -5,17 +5,17 @@
     @include('includes.head')
 </head>
 <body>
-<div class="container">
-
     @include('includes.header')
 
-    <div class="row main-content">
-        @yield('content')
+    <div class="page-main">
+        <div class="container">
+            <div class="row main-content">
+                @yield('content')
+            </div>
+        </div>
     </div>
 
     @include('includes.footer')
-    
-</div>
 </body>
 </html>
 
