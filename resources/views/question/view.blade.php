@@ -13,4 +13,8 @@
     
     @include('question.answer')
     @include('question.answers')
+
+    <div class="w-100 mb-4">
+        <a href="/">Back to other questions</a>
+    </div>
 @stop
