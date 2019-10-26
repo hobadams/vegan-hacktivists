@@ -5,7 +5,7 @@
         {{ csrf_field() }}
         <div class="form-group">
             <label for="question">Your Question</label>
-            <textarea name="question" id="question" class="form-control" placeholder="Enter your question here" required></textarea>   
+            <textarea name="question" id="question" class="form-control" placeholder="{{ $placeholder }}" required>{{ old('question') }}</textarea>   
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

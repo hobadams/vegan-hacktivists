@@ -8,13 +8,35 @@ use App\Answer;
 
 class QuestionController extends Controller
 {
+
+    const STATUS_ERROR = 'error';
+    const STATUS_SUCCESS = 'success';
+
     /**
      * Index Action
      */
     public function index()
     {
-        $questions = Question::all();
-        return view('pages.index', compact('questions'));
+        $questions = Question::orderBy('created_at', 'desc')
+        ->take(20)
+        ->get();
+
+        $placeholder = $this->getRandomPlaceholder();
+        return view('pages.index', compact('questions', 'placeholder'));
+    }
+
+    /**
+     * Get a random placeholder
+     */
+    public function getRandomPlaceholder()
+    {
+        $placeholders = [
+            'Ask me a something funny',
+            'Got something on your mind? ask away?',
+            'We\'re all friends here....ask me anything'
+        ];
+        $random = array_rand($placeholders, 1);
+        return $placeholders[$random];
     }
 
     /**
@@ -23,14 +45,26 @@ class QuestionController extends Controller
     public function submitQuestion()
     {
         $question = new Question();
-        if (!request('question')) {
-            session()->flash('error', 'Please ask a question');
+        $questionText = trim(request('question'));
+        if (!$questionText) {
+            session()->flash(self::STATUS_ERROR, 'Please ask a question');
             return redirect()->back();
         }
-        $question->question = request('question');
+
+        // If the question is too short
+        if (strlen($questionText) < 5) {
+            session()->flash(self::STATUS_ERROR, 'Your question must be at least 5 characters long');
+            return redirect()->back()->withInput();
+        }
+
+        // Add a question mark if it's not the last character
+        if (substr($questionText, -1) !== '?') {
+            $questionText = $questionText . '?';
+        }
+        $question->question = $questionText;
         $question->save();
  
-        session()->flash('success', 'Thanks for asking a question.');
+        session()->flash(self::STATUS_SUCCESS, 'Thanks for asking a question.');
         return redirect()->back();
     }
 
@@ -41,15 +75,22 @@ class QuestionController extends Controller
     {
         $answer = new Answer();
         $questionId = request('question_id');
-        if (!request('answer')) {
-            session()->flash('error', 'Please add an answer');
+        $answerText = trim(request('answer'));
+        if (!$answerText) {
+            session()->flash(self::STATUS_ERROR, 'Please add an answer');
             return redirect()->back();
         }
-        $answer->answer = request('answer');
+
+        // If the question is too short
+        if (strlen($answerText) < 5) {
+            session()->flash(self::STATUS_ERROR, 'Your answer must be at least 5 characters long');
+            return redirect()->back()->withInput();
+        }
+        $answer->answer = $answerText;
         $answer->question_id = $questionId;
         $answer->save();
 
-        session()->flash('success', 'Thanks for answering the question.');
+        session()->flash(self::STATUS_SUCCESS, 'Thanks for answering the question.');
         return redirect()->back();
     }
 
@@ -64,7 +105,8 @@ class QuestionController extends Controller
         ->first();
 
         $answers = Answer::where('question_id', $id)
-        ->take(10)
+        ->take(20)
+        ->orderBy('created_at', 'asc')
         ->get();
 
         return view('question.view', compact('question', 'answers'));

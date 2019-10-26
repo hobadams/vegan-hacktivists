@@ -4,7 +4,8 @@
         <ul class="list-group">
             @foreach($answers as $answer)
                 <li class="list-group-item" itemscope itemtype="http://schema.org/Answer">
-                    <div itemprop="text">{{ $answer->answer }}</div>
+                    <p itemprop="text"><strong>{{ $answer->answer }}</strong></p>
+                    <time datetime="{{ date('y-M-d', strtotime($answer->created_at)) }}">{{ date('g:ia - dS M y', strtotime($answer->created_at)) }}</time>
                 </li>
             @endforeach
         </ul>
