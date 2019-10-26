@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html>
+<html lang="en" itemscope itemtype=”http://schema.org/QAPage”>
 <head>
     @include('includes.head')
 </head>

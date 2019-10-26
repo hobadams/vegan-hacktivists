@@ -23,13 +23,15 @@ class QuestionController extends Controller
     public function submitQuestion()
     {
         $question = new Question();
-        if (!request('question')) {
-            // @todo throw error here
+        if (!request('questionn')) {
+            session()->flash('error', 'Please ask a question');
+            return redirect()->back();
         }
         $question->question = request('question');
         $question->save();
  
-        return redirect('/');
+        session()->flash('success', 'Thanks for asking a question.');
+        return redirect()->back();
     }
 
     /**
@@ -40,13 +42,15 @@ class QuestionController extends Controller
         $answer = new Answer();
         $questionId = request('question_id');
         if (!request('answer')) {
-            // @todo throw error here
+            session()->flash('error', 'Please add an answer');
+            return redirect()->back();
         }
         $answer->answer = request('answer');
         $answer->question_id = $questionId;
         $answer->save();
- 
-        return redirect('/question/' . $questionId);
+
+        session()->flash('success', 'Thanks for answering the question.');
+        return redirect()->back();
     }
 
 

@@ -3,8 +3,8 @@
     @if($questions->count())
         <ul>
             @foreach($questions as $question)
-                <li>
-                    <a href="/question/{{ $question->id }}">{{ $question->question }}</a>
+                <li itemscope itemtype="http://schema.org/Question">
+                    <a href="/question/{{ $question->id }}" itemprop="text">{{ $question->question }}</a>
                 </li>
             @endforeach
         </ul>

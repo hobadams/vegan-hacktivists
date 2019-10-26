@@ -1,9 +1,11 @@
 <section class="w-100 mb-4 pb-4">
-    <h3>Answers</h3>
+    <h3>Answers (<span itemprop="answerCount">{{ $answers->count() }}</span>)</h3>
     @if($answers->count())
         <ul>
             @foreach($answers as $answer)
-                <li>{{ $answer->answer }}</li>
+                <li itemscope itemtype="http://schema.org/Answer">
+                    <div itemprop="text">{{ $answer->answer }}</div>
+                </li>
             @endforeach
         </ul>
     @else
