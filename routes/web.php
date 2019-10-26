@@ -5,5 +5,6 @@
 
  // Homepage
 Route::get('/', function () {
-    return view('pages.index');
+    $questions = DB::table('questions')->get();
+    return view('pages.index', ['questions' => $questions]);
 });
